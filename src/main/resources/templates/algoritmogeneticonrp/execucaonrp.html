@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.108.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}" />
+    <title>Execução NRP</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/heroes.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/new-style.css}" />
+
+    <link rel="canonical" type="text/css" href="https://getbootstrap.com/docs/5.3/examples/heroes/" />
+    <script src="/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+
+<body scroll="no" style="font-family: sans-serif;">
+<main>
+    <div th:insert="menu :: menu"></div>
+
+    <div id="container">
+        <div id="conteudo-table-ag">
+            <table class="table table-striped table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th style="text-align: center; vertical-align: middle;" >Metaheurística</th>
+                        <th style="text-align: center; vertical-align: middle;">Qualidade Média Máxima</th>
+                        <th style="text-align: center; vertical-align: middle;">Qualidade Média Mímina</th>
+                        <th style="text-align: center; vertical-align: middle;">Desvio Padrão Máximo</th>
+                        <th style="text-align: center; vertical-align: middle;">Desvio Padrão Mínimo</th>
+                        <th style="text-align: center; vertical-align: middle;">Quantidade de Registros</th>
+                        <th style="text-align: center; vertical-align: middle;">Tempo Médio</th>
+                        <th style="text-align: center; vertical-align: middle;">Proporção</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item: ${resultadoNRPList}" style="text-align: center">
+                        <td th:text="${item.algoritmo}"></td>
+                        <td th:text="${item.mediaMaximoy}"></td>
+                        <td th:text="${item.mediaMinimoy}"></td>
+                        <td th:text="${item.desvioPadraoMaximo}"></td>
+                        <td th:text="${item.desvioPadraoMinimo}"></td>
+                        <td th:text="${item.cont}"></td>
+                       <!-- <td th:text="${#strings.format('%1$.2f', item.tempoMedio)}"></td>
+                        <td th:text="${#strings.format('%1$.2f', item.proporcao)}"></td>-->
+                        <td th:text="${#numbers.formatDecimal(item.tempoMedio,1,2,'COMMA')} + 's'"></td>
+                        <td th:text="${#numbers.formatDecimal(item.proporcao,1,2,'COMMA')} + '%'"></td>
+                    </tr>
+                </tbody>
+                <!-- Calcular o total usando a expressão Thymeleaf -->
+                <tfoot>
+                <tr>
+                    <td th:colspan="6"  class="table-primary" style="text-align: right;"><b>Total</b></td>
+                    <!--<td th:text="${#strings.format('%1$.2f', totalTempoMedio)}">0.00</td>-->
+                    <td th:text="${#numbers.formatDecimal(totalTempoMedio,1,2,'COMMA')} + 's'" style="text-align: center">0.00</td>
+                    <td th:text="${#numbers.formatDecimal(totalProporcao,1,2,'COMMA')} + '%'" style="text-align: center">0.00</td>
+
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
+</html>

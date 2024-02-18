@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+</head>
+<body>
+<nav th:fragment="menu" class="navbar navbar-expand-lg navbar-dark " aria-label="Offcanvas navbar large"
+     style="background-color: rgb(65,105,225);">
+  <div class="container-fluid">
+    <a class="navbar-brand" style="color: white">Experimentações do <i>Next Release Problem</i></a>
+  </div>
+  <div class="container-fluid" style="margin-right: 20px;">
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar2"
+         aria-labelledby="offcanvasNavbar2Label">
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Início</a>
+          </li>
+<!--          <li class="nav-item dropdown">-->
+<!--            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMH" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--              Metaheurísticas-->
+<!--            </a>-->
+<!--            <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+<!--              <a class="dropdown-item" href="/dataset"><i>Dataset</i></a>-->
+<!--              <a class="dropdown-item" href="/metaheuristica/next-release-problem-ag/">Algoritmo Genético</a>-->
+<!--              <a class="dropdown-item" href="/metaheuristica/next-release-problem-sa/"><i>Simulated Annealing</i></a>-->
+<!--              <a class="dropdown-item" href="/metaheuristica/next-release-problem-bt/">Busca Tabu</a>-->
+<!--              <a class="dropdown-item" href="/metaheuristica/next-release-problem-grasp/"><i>GRASP</i></a>-->
+<!--              <a class="dropdown-item" href="/execucao">Execução</a>-->
+<!--            </div>-->
+<!--          </li>-->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAG" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Algoritmo Genético NRP
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/algoritmogeneticonrp/executar-ag-nrp/">Executar AG NRP</a>
+              <a class="dropdown-item" href="/algoritmogeneticonrp/executar-programa-nrp/">Executar Programa NRP</a>
+              <a class="dropdown-item" href="/algoritmogeneticonrp/executar-gerador-nrp/">Executar Gerador NRP</a>
+              <a class="dropdown-item" href="/algoritmogeneticonrp/executar-experimento-nrp/">Executar Experimento NRP</a>
+              <a class="dropdown-item" href="/algoritmogeneticonrp/execucaonrp">Execução NRP</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+</body>
+</html>

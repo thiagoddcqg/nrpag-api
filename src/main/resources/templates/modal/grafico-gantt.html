@@ -1,0 +1,31 @@
+<!-- Modal -->
+    <div th:fragment="grafico-gantt" class="modal fade" id="grafico-gantt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="custom-modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Gráfico de Gantt</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div th:replace="modal/img-gantt :: img-gantt"></div>
+                </div>
+                <div class="modal-footer" th:unless="${generatingPdf}" >
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <th:block th:if="${metaheuristica.name() == 'ALGORITMO_GENETICO'}">
+                        <a th:href="@{/metaheuristica/next-release-problem-ag/gerarpdf}" class="btn btn-primary" target="_blank">Gerar PDF</a>
+                    </th:block>
+                    <th:block th:if="${metaheuristica.name() == 'SIMULATED_ANNEALING'}">
+                        <a th:href="@{/metaheuristica/next-release-problem-sa/gerarpdf}" class="btn btn-primary" target="_blank">Gerar PDF</a>
+                    </th:block>
+                    <th:block th:if="${metaheuristica.name() == 'BUSCA_TABU'}">
+                        <a th:href="@{/metaheuristica/next-release-problem-bt/gerarpdf}" class="btn btn-primary" target="_blank">Gerar PDF</a>
+                    </th:block>
+                    <th:block th:if="${metaheuristica.name() == 'GRASP'}">
+                        <a th:href="@{/metaheuristica/next-release-problem-grasp/gerarpdf}" class="btn btn-primary" target="_blank">Gerar PDF</a>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>

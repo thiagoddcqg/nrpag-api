@@ -1,0 +1,42 @@
+<body scroll="no" style="font-family: sans-serif;">
+<th:block th:fragment="fragment-table-bt">
+  <div id="conteudo-table-bt">
+    <table class="table table-striped table-bordered">
+      <thead class="table-primary">
+      <tr>
+        <th>ID Experimentação</th>
+        <th>Data de Início</th>
+        <th>Data de Fim</th>
+        <th>Duração</th>
+        <th>Tamanho Tabu</th>
+        <th>Iteração</th>
+        <th>Valor Solucao</th>
+        <th>Qtde. funcionalidades p/ prioridade</th>
+        <th>Tamanho Solução</th>
+        <th>Provisão</th>
+        <th>Média Função Objetiva</th>
+        <th>Média Solução</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="execucao: ${execucoes}">
+        <td th:text="${execucao.idExperimentacao}"></td>
+        <td th:text="${#dates.format(new java.util.Date(execucao.dataInicio), 'dd/MM/yyyy HH:MM:ss')}"></td>
+        <td th:text="${#dates.format(new java.util.Date(execucao.dataFim), 'dd/MM/yyyy HH:MM:ss')}"></td>
+        <td th:text="${execucao.duracao}"></td>
+        <td th:text="${execucao.tamTabu}"></td>
+        <td th:text="${execucao.iteracoes}"></td>
+        <td th:text="${execucao.valorSolucao}"></td>
+        <td th:text="${execucao.qtdeFeaturesPorPrioridade}"></td>
+        <td th:text="${execucao.tamanhoSolucao}"></td>
+        <td th:text="${execucao.provisao}"></td>
+        <td th:text="${execucao.qtdAcessoFuncaoObjetivoMedia}"></td>
+        <td th:text="${execucao.mediaSolucao}"></td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</th:block>
+</body>

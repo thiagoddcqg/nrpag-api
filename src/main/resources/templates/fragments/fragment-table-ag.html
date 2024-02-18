@@ -1,0 +1,46 @@
+<body scroll="no" style="font-family: sans-serif;">
+<th:block th:fragment="fragment-table-ag">
+  <div id="conteudo-table-ag">
+    <table class="table table-striped table-bordered">
+      <thead class="table-primary">
+      <tr>
+        <th>ID Experimentação</th>
+        <th>Data de Início</th>
+        <th>Data de Fim</th>
+        <th>Duração</th>
+        <th>Tamano Solução</th>
+        <th>Provisão</th>
+        <th>Interação</th>
+        <th>Tamanho da população</th>
+        <th>Taxa de mutação</th>
+        <th>Taxa de cruzamento</th>
+        <th>Tipo Cruzamento</th>
+        <th>Tipo Seleção</th>
+        <th>Tamano do Torneio</th>
+        <th>Valor Solucao</th>
+        <th>Provisão</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="execucao: ${execucoes}">
+        <td th:text="${execucao.idExperimentacao}"></td>
+        <td th:text="${#dates.format(new java.util.Date(execucao.dataInicio), 'dd/MM/yyyy HH:MM:ss')}"></td>
+        <td th:text="${#dates.format(new java.util.Date(execucao.dataFim), 'dd/MM/yyyy HH:MM:ss')}"></td>
+        <td th:text="${execucao.duracao}"></td>
+        <td th:text="${execucao.tamanhoSolucao}"></td>
+        <td th:text="${execucao.provisao}"></td>
+        <td th:text="${execucao.iteracoes}"></td>
+        <td th:text="${execucao.tamPopulacao}"></td>
+        <td th:text="${execucao.taxaMutacao}"></td>
+        <td th:text="${execucao.taxaCruzamento}"></td>
+        <td th:text="${execucao.tipoCruzamento}"></td>
+        <td th:text="${execucao.tipoSelecao}"></td>
+        <td th:text="${execucao.tamTorneio}"></td>
+        <td th:text="${execucao.valorSolucao}"></td>
+        <td th:text="${execucao.provisao}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</th:block>
+</body>

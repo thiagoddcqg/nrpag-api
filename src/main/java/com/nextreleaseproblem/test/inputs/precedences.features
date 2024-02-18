@@ -1,0 +1,4 @@
+Feature 1	2	2.0	Skill 1
+Feature 2	2	3.0	Skill 1	Feature 1
+Feature 3	2	2.0	Skill 1	Feature 1
+Feature 4	2	3.0	Skill 1	Feature 3

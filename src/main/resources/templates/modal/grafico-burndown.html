@@ -1,0 +1,20 @@
+<!-- Modal -->
+    <div th:fragment="grafico-burndown" class="modal fade" id="grafico-burndown" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="custom-modal-dialogbd" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Gráfico de Gantt</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div th:replace="modal/img-burndown :: img-burndown"></div>
+                </div>
+                <div class="modal-footer" th:unless="${generatingPdf}" >
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <a th:href="@{/metaheuristica/next-release-problem-ag/gerarpdfbd}" class="btn btn-primary" target="_blank">Gerar PDF</a>
+                </div>
+            </div>
+        </div>
+    </div>

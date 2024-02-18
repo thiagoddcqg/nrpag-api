@@ -1,0 +1,40 @@
+<body scroll="no" style="font-family: sans-serif;">
+<th:block th:fragment="fragment-table-sa">
+  <div id="conteudo-table-sa">
+    <table class="table table-striped table-bordered">
+      <thead class="table-primary">
+      <tr>
+        <th>ID Experimentação</th>
+        <th>Data de Início</th>
+        <th>Data de Fim</th>
+        <th>Duração</th>
+        <th>Temperatura Inicial</th>
+        <th>Taxa de Resfriamento</th>
+        <th>Tamanho Solução</th>
+        <th>Provisão</th>
+        <th>Iteração</th>
+        <th>Valor Solucao</th>
+        <th>Qtde. funcionalidades p/ prioridade</th>
+        <th>Média Função Objetiva</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="execucao: ${execucoes}">
+        <td th:text="${execucao.idExperimentacao}"></td>
+        <td th:text="${#dates.format(new java.util.Date(execucao.dataInicio), 'dd/MM/yyyy HH:MM:ss')}"></td>
+        <td th:text="${#dates.format(new java.util.Date(execucao.dataFim), 'dd/MM/yyyy HH:MM:ss')}"></td>
+        <td th:text="${execucao.duracao}"></td>
+        <td th:text="${execucao.temperaturaInicial}"></td>
+        <td th:text="${execucao.taxaResfriamento}"></td>
+        <td th:text="${execucao.tamanhoSolucao}"></td>
+        <td th:text="${execucao.provisao}"></td>
+        <td th:text="${execucao.iteracoes}"></td>
+        <td th:text="${execucao.valorSolucao}"></td>
+        <td th:text="${execucao.qtdeFeaturesPorPrioridade}"></td>
+        <td th:text="${execucao.qtdAcessoFuncaoObjetivoMedia}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</th:block>
+</body>
