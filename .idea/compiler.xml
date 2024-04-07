@@ -7,13 +7,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="metaheristicas" />
+        <module name="nrpag-api" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="metaheristicas" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="metaheristicas" options="-parameters" />
+      <module name="nrpag-api" options="-parameters" />
     </option>
   </component>
 </project>
