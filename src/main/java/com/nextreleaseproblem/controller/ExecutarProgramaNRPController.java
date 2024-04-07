@@ -1,24 +1,22 @@
 package com.nextreleaseproblem.controller;
 
-import com.nextreleaseproblem.model.CarregadorDados;
-import com.nextreleaseproblem.model.ArquivoTeste;
 import com.nextreleaseproblem.model.*;
 import com.nextreleaseproblem.model.comparadores.CompararadorSolucaoPlaneamentoViolacaoRestricao;
 import com.nextreleaseproblem.model.operadores.OperadorCruzamentoPlanejamento;
 import com.nextreleaseproblem.model.operadores.OperadorMutacaoPlanejamento;
+import com.nextreleaseproblem.model.parametros.DadosProblema;
 import com.nextreleaseproblem.model.parametros.ParametrosInteracao;
 import com.nextreleaseproblem.model.parametros.ParametrosPadrao;
-import com.nextreleaseproblem.model.parametros.DadosProblema;
 import com.nextreleaseproblem.service.ExecucaoAlgoritmoService;
 import com.nextreleaseproblem.service.ExecucaoService;
 import com.nextreleaseproblem.service.NextReleaseProblemAGService;
 import com.nextreleaseproblem.view.HTMLEscrita;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.TemplateEngine;
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
@@ -31,7 +29,7 @@ import org.uma.jmetal.util.AlgorithmRunner;
 import java.io.IOException;
 import java.util.*;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/algoritmogeneticonrp/executar-programa-nrp")
 public class ExecutarProgramaNRPController {

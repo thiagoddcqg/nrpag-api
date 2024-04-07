@@ -1,16 +1,16 @@
 package com.nextreleaseproblem.controller;
 
-import com.nextreleaseproblem.model.GeradorParametrosPadrao;
 import com.nextreleaseproblem.model.GeradorParametros;
+import com.nextreleaseproblem.model.GeradorParametrosPadrao;
 import com.nextreleaseproblem.service.ExecucaoAlgoritmoService;
 import com.nextreleaseproblem.service.ExecucaoService;
 import com.nextreleaseproblem.service.NextReleaseProblemAGService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.TemplateEngine;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.io.IOException;
 import static com.nextreleaseproblem.model.GeradorNRP.gerar;
 import static com.nextreleaseproblem.model.GeradorNRP.gravarArquivo;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/algoritmogeneticonrp/executar-gerador-nrp")
 public class ExecutarGeradorNRPController {

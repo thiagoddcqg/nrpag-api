@@ -10,12 +10,9 @@ import com.nextreleaseproblem.repository.entity.AlgoritmoExecucao;
 import com.nextreleaseproblem.repository.entity.ExecucaoMetaheuristicas;
 import com.nextreleaseproblem.service.ExecucaoAlgoritmoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
@@ -23,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/algoritmogeneticonrp/executar-experimento-nrp")
 public class ExecutarExperimentoNRPController {

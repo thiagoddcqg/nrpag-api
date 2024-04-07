@@ -1,13 +1,13 @@
 package com.nextreleaseproblem.controller;
 
-import com.nextreleaseproblem.repository.entity.Execucao;
+import com.nextreleaseproblem.model.Funcionalidade;
 import com.nextreleaseproblem.model.GeradorPDF;
 import com.nextreleaseproblem.model.MetaheuristicaEnum;
+import com.nextreleaseproblem.repository.entity.Execucao;
 import com.nextreleaseproblem.service.ExecucaoService;
 import com.nextreleaseproblem.service.NextReleaseProblemAGService;
 import com.nextreleaseproblem.util.FileUtil;
 import com.nextreleaseproblem.util.RuntimeUtil;
-import com.nextreleaseproblem.model.Funcionalidade;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
@@ -19,9 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor

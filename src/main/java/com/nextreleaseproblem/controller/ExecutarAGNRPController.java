@@ -1,17 +1,12 @@
 package com.nextreleaseproblem.controller;
 
-import com.nextreleaseproblem.model.ExecutorAlgoritmo;
-import com.nextreleaseproblem.model.GeradorNRP;
-import com.nextreleaseproblem.model.ResultadoExecucao;
-import com.nextreleaseproblem.model.ParametrosExecutor;
-import com.nextreleaseproblem.model.GeradorParametros;
-import com.nextreleaseproblem.model.NextReleaseProblem;
+import com.nextreleaseproblem.model.*;
 import com.nextreleaseproblem.model.parametros.AlgoritmoEnum;
-import com.nextreleaseproblem.model.parametros.ParametrosInteracao;
 import com.nextreleaseproblem.model.parametros.DadosProblema;
+import com.nextreleaseproblem.model.parametros.ParametrosInteracao;
 import com.nextreleaseproblem.repository.entity.ExecucaoMetaheuristicas;
-import com.nextreleaseproblem.service.ExecucaoService;
 import com.nextreleaseproblem.service.ExecucaoAlgoritmoService;
+import com.nextreleaseproblem.service.ExecucaoService;
 import com.nextreleaseproblem.service.NextReleaseProblemAGService;
 import com.nextreleaseproblem.view.HTMLEscrita;
 import lombok.Data;
@@ -23,7 +18,7 @@ import org.thymeleaf.TemplateEngine;
 
 import java.io.IOException;
 
-@Controller
+@RestController
 @Data
 @RequiredArgsConstructor
 @RequestMapping("/algoritmogeneticonrp/executar-ag-nrp")
@@ -96,7 +91,8 @@ public class ExecutarAGNRPController {
         model.addAttribute("numerohabilidades", numerohabilidadesinput);
         model.addAttribute("taxaprecedencia", taxaprecedenciainput);
 
-        return "/algoritmogeneticonrp/executar-ag-nrp";
+        // "/algoritmogeneticonrp/executar-ag-nrp"
+        return htmlString;
     }
 
     public String launch(AlgoritmoEnum algoritmoEnum, GeradorParametros genParam, ParametrosInteracao iterationParam) {
