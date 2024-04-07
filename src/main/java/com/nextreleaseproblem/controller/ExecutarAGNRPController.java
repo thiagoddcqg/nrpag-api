@@ -11,6 +11,7 @@ import com.nextreleaseproblem.service.NextReleaseProblemAGService;
 import com.nextreleaseproblem.view.HTMLEscrita;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,15 +53,57 @@ public class ExecutarAGNRPController {
         return "/algoritmogeneticonrp/executar-ag-nrp";
     }
 
+    /*  @PostMapping("/")
+      public String executar(@RequestParam("algoritmoinput") String algoritmoinput,
+                             @RequestParam("numsemanasinput") int numsemanasinput,
+                             @RequestParam("hrsporsemanainput") double hrsporsemanainput,
+                             @RequestParam("numfeaturesinput") int numfeaturesinput,
+                             @RequestParam("numempregadosinput") int numempregadosinput,
+                             @RequestParam("numerohabilidadesinput") int numerohabilidadesinput,
+                             @RequestParam("taxaprecedenciainput") double taxaprecedenciainput,
+                             Model model) throws IOException {
+
+
+          AlgoritmoEnum algoritmoEnum = AlgoritmoEnum.valueOf(algoritmoinput);
+          GeradorParametros genParam = new GeradorParametros(numfeaturesinput, numempregadosinput, numerohabilidadesinput, taxaprecedenciainput);
+          ParametrosInteracao iterationParam = new ParametrosInteracao(numsemanasinput, hrsporsemanainput);
+
+          String htmlString = launch(algoritmoEnum, genParam, iterationParam);
+
+          ExecucaoMetaheuristicas execucaoMetaheuristicas = ExecucaoMetaheuristicas.builder()
+                  .algoritmo(AlgoritmoEnum.valueOf(algoritmoinput))
+                  .hrsporsemana(hrsporsemanainput)
+                  .numempregados(numempregadosinput)
+                  .numfeatures(numfeaturesinput)
+                  .numsemanas(numsemanasinput)
+                  .taxaprecedencia(taxaprecedenciainput)
+                  .numerohabilidades(numerohabilidadesinput)
+                  .htmlstring(htmlString)
+              .build();
+
+          service.salvar(execucaoMetaheuristicas);
+
+          model.addAttribute("algorithmChoices", AlgoritmoEnum.values());
+          model.addAttribute("conteudoHtml", htmlString);
+          model.addAttribute("numerosemanas", numsemanasinput);
+          model.addAttribute("horassemanas", hrsporsemanainput);
+          model.addAttribute("numerofeatures", numfeaturesinput);
+          model.addAttribute("numeroempregados", numempregadosinput);
+          model.addAttribute("numerohabilidades", numerohabilidadesinput);
+          model.addAttribute("taxaprecedencia", taxaprecedenciainput);
+
+          // "/algoritmogeneticonrp/executar-ag-nrp"
+          return htmlString;
+      }
+  */
     @PostMapping("/")
-    public String executar(@RequestParam("algoritmoinput") String algoritmoinput,
-                           @RequestParam("numsemanasinput") int numsemanasinput,
-                           @RequestParam("hrsporsemanainput") double hrsporsemanainput,
-                           @RequestParam("numfeaturesinput") int numfeaturesinput,
-                           @RequestParam("numempregadosinput") int numempregadosinput,
-                           @RequestParam("numerohabilidadesinput") int numerohabilidadesinput,
-                           @RequestParam("taxaprecedenciainput") double taxaprecedenciainput,
-                           Model model) throws IOException {
+    public ResponseEntity<String> executar(@RequestParam("algoritmoinput") String algoritmoinput,
+                                           @RequestParam("numsemanasinput") int numsemanasinput,
+                                           @RequestParam("hrsporsemanainput") double hrsporsemanainput,
+                                           @RequestParam("numfeaturesinput") int numfeaturesinput,
+                                           @RequestParam("numempregadosinput") int numempregadosinput,
+                                           @RequestParam("numerohabilidadesinput") int numerohabilidadesinput,
+                                           @RequestParam("taxaprecedenciainput") double taxaprecedenciainput) {
 
 
         AlgoritmoEnum algoritmoEnum = AlgoritmoEnum.valueOf(algoritmoinput);
@@ -78,21 +121,22 @@ public class ExecutarAGNRPController {
                 .taxaprecedencia(taxaprecedenciainput)
                 .numerohabilidades(numerohabilidadesinput)
                 .htmlstring(htmlString)
-            .build();
+                .build();
 
         service.salvar(execucaoMetaheuristicas);
 
-        model.addAttribute("algorithmChoices", AlgoritmoEnum.values());
+     /*   model.addAttribute("algorithmChoices", AlgoritmoEnum.values());
         model.addAttribute("conteudoHtml", htmlString);
         model.addAttribute("numerosemanas", numsemanasinput);
         model.addAttribute("horassemanas", hrsporsemanainput);
         model.addAttribute("numerofeatures", numfeaturesinput);
         model.addAttribute("numeroempregados", numempregadosinput);
         model.addAttribute("numerohabilidades", numerohabilidadesinput);
-        model.addAttribute("taxaprecedencia", taxaprecedenciainput);
+        model.addAttribute("taxaprecedencia", taxaprecedenciainput);*/
 
         // "/algoritmogeneticonrp/executar-ag-nrp"
-        return htmlString;
+        //return htmlString;
+        return ResponseEntity.ok(htmlString);
     }
 
     public String launch(AlgoritmoEnum algoritmoEnum, GeradorParametros genParam, ParametrosInteracao iterationParam) {
