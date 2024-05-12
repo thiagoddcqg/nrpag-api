@@ -13,6 +13,7 @@ import com.nextreleaseproblem.util.HtmlUtils;
 import com.nextreleaseproblem.view.HTMLEscrita;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +25,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.Jsoup;
 import org.json.JSONObject;
 import org.jsoup.select.Elements;
-
+import com.google.gson.Gson;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 @RestController
 @Data
@@ -188,7 +193,7 @@ public class ExecutarAGNRPController {
         return ResponseEntity.ok(HtmlUtils.convertElementToJson(doc.body(), jsonObject).toString());
     }*/
 
-    @PostMapping("/")
+   /* @PostMapping("/")
     public ResponseEntity<RetornoDadosDTO> executar(@RequestParam("algoritmoinput") String algoritmoinput,
                                            @RequestParam("numsemanasinput") int numsemanasinput,
                                            @RequestParam("hrsporsemanainput") double hrsporsemanainput,
@@ -228,7 +233,7 @@ public class ExecutarAGNRPController {
                 .taxaPrecedencia(taxaprecedenciainput)
             .build();
 
-     /*   model.addAttribute("algorithmChoices", AlgoritmoEnum.values());
+     *//*   model.addAttribute("algorithmChoices", AlgoritmoEnum.values());
         model.addAttribute("conteudoHtml", htmlString);
         model.addAttribute("numerosemanas", numsemanasinput);
         model.addAttribute("horassemanas", hrsporsemanainput);
@@ -236,9 +241,77 @@ public class ExecutarAGNRPController {
         model.addAttribute("numeroempregados", numempregadosinput);
         model.addAttribute("numerohabilidades", numerohabilidadesinput);
         model.addAttribute("taxaprecedencia", taxaprecedenciainput);
-     */
+     *//*
 
         return ResponseEntity.ok(retornoDadosDTO);
+    }*/
+
+    @PostMapping(value = "/", produces = "application/json")
+    public ResponseEntity<String> executar(@RequestParam("algoritmoinput") String algoritmoinput,
+                                                    @RequestParam("numsemanasinput") int numsemanasinput,
+                                                    @RequestParam("hrsporsemanainput") double hrsporsemanainput,
+                                                    @RequestParam("numfeaturesinput") int numfeaturesinput,
+                                                    @RequestParam("numempregadosinput") int numempregadosinput,
+                                                    @RequestParam("numerohabilidadesinput") int numerohabilidadesinput,
+                                                    @RequestParam("taxaprecedenciainput") double taxaprecedenciainput) {
+
+
+        AlgoritmoEnum algoritmoEnum = AlgoritmoEnum.valueOf(algoritmoinput);
+        GeradorParametros genParam = new GeradorParametros(numfeaturesinput, numempregadosinput, numerohabilidadesinput, taxaprecedenciainput);
+        ParametrosInteracao iterationParam = new ParametrosInteracao(numsemanasinput, hrsporsemanainput);
+
+        String htmlString = launch(algoritmoEnum, genParam, iterationParam);
+
+        ExecucaoMetaheuristicas execucaoMetaheuristicas = ExecucaoMetaheuristicas.builder()
+                .algoritmo(AlgoritmoEnum.valueOf(algoritmoinput))
+                .hrsporsemana(hrsporsemanainput)
+                .numempregados(numempregadosinput)
+                .numfeatures(numfeaturesinput)
+                .numsemanas(numsemanasinput)
+                .taxaprecedencia(taxaprecedenciainput)
+                .numerohabilidades(numerohabilidadesinput)
+                .htmlstring(htmlString)
+                .build();
+
+        service.salvar(execucaoMetaheuristicas);
+
+        Document doc = Jsoup.parse(htmlString);
+        Element table = doc.select("table").first();
+        String html = table != null ? table.outerHtml() : "";
+
+        String json = convertHtmlTableToJson(html);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(json);
+    }
+
+    private static String convertHtmlTableToJson(String html) {
+        Document doc = Jsoup.parse(html);
+        Elements rows = doc.select("table tr");
+
+        Gson gson = new Gson();
+        StringBuilder json = new StringBuilder("[");
+        for (int i = 1; i < rows.size(); i++) { // Start from 1 to skip header row
+            Element row = rows.get(i);
+            Elements cols = row.select("td");
+            if (cols.size() == 0) continue; // Skip empty rows
+
+            StringBuilder rowData = new StringBuilder("{");
+            for (int j = 0; j < cols.size(); j++) {
+                String header = rows.get(0).select("th").get(j).text();
+                String value = cols.get(j).text();
+                rowData.append("\"").append(header).append("\":\"").append(value).append("\",");
+            }
+            rowData.deleteCharAt(rowData.length() - 1); // Remove trailing comma
+            rowData.append("}");
+
+            json.append(rowData).append(",");
+        }
+        json.deleteCharAt(json.length() - 1); // Remove trailing comma
+        json.append("]");
+
+        return json.toString();
     }
 
     public String launch(AlgoritmoEnum algoritmoEnum, GeradorParametros genParam, ParametrosInteracao iterationParam) {
