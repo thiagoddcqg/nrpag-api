@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.TemplateEngine;
 
 import java.io.IOException;
+import java.util.Date;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.Jsoup;
 import org.json.JSONObject;
@@ -255,6 +257,7 @@ public class ExecutarAGNRPController {
                                                     @RequestParam("numerohabilidadesinput") int numerohabilidadesinput,
                                                     @RequestParam("taxaprecedenciainput") double taxaprecedenciainput) {
 
+        Date inicio = new Date();
 
         AlgoritmoEnum algoritmoEnum = AlgoritmoEnum.valueOf(algoritmoinput);
         GeradorParametros genParam = new GeradorParametros(numfeaturesinput, numempregadosinput, numerohabilidadesinput, taxaprecedenciainput);
@@ -273,13 +276,18 @@ public class ExecutarAGNRPController {
                 .htmlstring(htmlString)
                 .build();
 
-        service.salvar(execucaoMetaheuristicas);
-
         Document doc = Jsoup.parse(htmlString);
         Element table = doc.select("table").first();
         String html = table != null ? table.outerHtml() : "";
 
         String json = convertHtmlTableToJson(html);
+
+        execucaoMetaheuristicas.setRetornoExecucao(json);
+        execucaoMetaheuristicas.setDataInicio(inicio);
+        execucaoMetaheuristicas.setDataFim(new Date());
+
+        service.salvar(execucaoMetaheuristicas);
+
 
         return ResponseEntity
                 .status(HttpStatus.OK)
