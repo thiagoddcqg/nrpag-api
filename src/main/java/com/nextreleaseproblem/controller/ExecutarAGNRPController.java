@@ -22,6 +22,7 @@ import org.thymeleaf.TemplateEngine;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.Jsoup;
@@ -54,7 +55,7 @@ public class ExecutarAGNRPController {
     private int numeroHabilidades = 2;
     private double taxaPrecedencia = 0.3;
 
-    @GetMapping("/")
+   /* @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("algorithmChoices", AlgoritmoEnum.values());
         model.addAttribute("numerosemanas", numeroSemanas);
@@ -65,6 +66,14 @@ public class ExecutarAGNRPController {
         model.addAttribute("taxaprecedencia", taxaPrecedencia);
 
         return "/algoritmogeneticonrp/executar-ag-nrp";
+    }
+*/
+    @GetMapping("/")
+    public ResponseEntity<List<ExecucaoMetaheuristicas>> lsitar() {
+       List<ExecucaoMetaheuristicas> list = service.listar();
+       return ResponseEntity
+               .status(HttpStatus.OK)
+               .body(list);
     }
 
     /*  @PostMapping("/")

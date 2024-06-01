@@ -5,6 +5,8 @@ import com.nextreleaseproblem.repository.entity.ExecucaoMetaheuristicas;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ExecucaoAlgoritmoService {
@@ -13,6 +15,10 @@ public class ExecucaoAlgoritmoService {
 
     public void salvar(ExecucaoMetaheuristicas execucaoMetaheuristicas){
         repository.save(execucaoMetaheuristicas);
+    }
+
+    public List<ExecucaoMetaheuristicas> listar(){
+        return repository.findAll();
     }
 
 }
