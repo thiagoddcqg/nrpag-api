@@ -6,38 +6,36 @@ import com.nextreleaseproblem.model.novamodelagem.NovaModelagemFeature;
 import com.nextreleaseproblem.model.novamodelagem.NovaModelagemNRPModel;
 import com.nextreleaseproblem.repository.entity.ExecucaoMetaheuristicas;
 import com.nextreleaseproblem.service.novamodelagem.NovaModelagemGeneticAlgorithm;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/novamodelagem/execucaonrp")
 public class NovaModelagemNRPController {
     @PostMapping("/")
-    public ResponseEntity<List<NovaModelagemDTO>> executar() {
-        // Criar valores mockados para Features
-        NovaModelagemFeature feature1 = new NovaModelagemFeature(1, 10.0, 5.0, Arrays.asList(), "Atividade", "Nova", "Feature 1", "Employee 1", 1, LocalDate.now(), 0, 0);
-        NovaModelagemFeature feature2 = new NovaModelagemFeature(2, 15.0, 8.0, Arrays.asList(1), "Análise", "Nova", "Feature 2", "Employee 2", 1, LocalDate.now(), 0, 0);
-        NovaModelagemFeature feature3 = new NovaModelagemFeature(3, 8.0, 3.0, Arrays.asList(), "Correção", "Nova", "Feature 3", "Employee 3", 1, LocalDate.now(), 0, 0);
-        NovaModelagemFeature feature4 = new NovaModelagemFeature(4, 20.0, 12.0, Arrays.asList(2, 3), "Implementação", "Nova", "Feature 4", "Employee 4", 1, LocalDate.now(), 0, 0);
+    public ResponseEntity<List<NovaModelagemDTO>> executar(@RequestParam("file") MultipartFile file) {
 
-        List<NovaModelagemFeature> features = Arrays.asList(feature1, feature2, feature3, feature4);
+        List<NovaModelagemFeature> features = processarArquivoCsvFeatures(file);
 
-        // Criar valores mockados para Employees
-        NovaModelagemEmployee employee1 = new NovaModelagemEmployee(1, 40.0, Arrays.asList("Skill 1"));
-        NovaModelagemEmployee employee2 = new NovaModelagemEmployee(2, 35.0, Arrays.asList("Skill 2"));
-        NovaModelagemEmployee employee3 = new NovaModelagemEmployee(3, 45.0, Arrays.asList("Skill 3"));
-
-        List<NovaModelagemEmployee> employees = Arrays.asList(employee1, employee2, employee3);
+        List<NovaModelagemEmployee> employees = processarArquivoCsvEmpregados(file);
 
         // Criar modelo NRP com restrições máximas de esforço e número de features
         NovaModelagemNRPModel model = new NovaModelagemNRPModel(features, employees, 3, 20.0);
@@ -62,4 +60,103 @@ public class NovaModelagemNRPController {
                 .status(HttpStatus.OK)
                 .body(lista);
     }
+
+    private List<NovaModelagemFeature> processarArquivoCsvFeatures(MultipartFile file) {
+
+        List<NovaModelagemFeature> features = new ArrayList<>();
+
+        try (Reader reader = new InputStreamReader(file.getInputStream());
+             CSVReader csvReader = new CSVReaderBuilder(reader)
+                     .withCSVParser(new CSVParserBuilder().withSeparator(';').build())
+                     .build()) {
+
+            String[] line;
+            boolean readingFeatures = false;
+
+            while ((line = csvReader.readNext()) != null) {
+
+                if (line.length == 0) {
+                    continue;
+                }
+
+                if (line[0].trim().contains("#")) {
+                    if (line[0].contains("Features")) {
+                        readingFeatures = true;
+                    } else {
+                        readingFeatures = false;
+                    }
+                    continue;
+                }
+
+                if (readingFeatures) {
+                    NovaModelagemFeature feature = new NovaModelagemFeature(
+                            Integer.parseInt(line[0]),
+                            Double.parseDouble(line[1]),
+                            Double.parseDouble(line[2]),
+                            line[3].isEmpty() ? new ArrayList<>() : Arrays.stream(line[3].split(","))
+                                    .map(Integer::parseInt)
+                                    .collect(Collectors.toList()),
+                            line[4],
+                            line[5],
+                            line[6],
+                            line[7],
+                            Integer.parseInt(line[8]),
+                            LocalDate.parse(line[9]),
+                            Integer.parseInt(line[10]),
+                            Integer.parseInt(line[11])
+                    );
+                    features.add(feature);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error processing CSV file", e);
+        }
+
+        return features;
+    }
+
+    private List<NovaModelagemEmployee> processarArquivoCsvEmpregados(MultipartFile file) {
+
+        List<NovaModelagemEmployee> empregados = new ArrayList<>();
+
+        try (Reader reader = new InputStreamReader(file.getInputStream());
+             CSVReader csvReader = new CSVReaderBuilder(reader)
+                     .withCSVParser(new CSVParserBuilder().withSeparator(';').build())
+                     .build()) {
+
+            String[] line;
+            boolean readingEmployees = false;
+
+            while ((line = csvReader.readNext()) != null) {
+                if (line.length == 0) {
+                    continue;
+                }
+
+                String trimmedLine = line[0].trim();
+
+                if (trimmedLine.contains("#")) {
+                    if (trimmedLine.contains("Funcionário")) {
+                        readingEmployees = true;
+                    } else {
+                        readingEmployees = false;
+                    }
+                    continue;
+                }
+
+                if (readingEmployees) {
+                    NovaModelagemEmployee employee = new NovaModelagemEmployee(
+                            Integer.parseInt(line[0].trim()),
+                            Double.parseDouble(line[1].trim()),
+                            Arrays.asList(line[2].trim())
+                    );
+                    empregados.add(employee);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error processing CSV file", e);
+        }
+
+        return empregados;
+    }
+
 }
