@@ -1,14 +1,14 @@
 package com.nextreleaseproblem.controller;
 
 import com.nextreleaseproblem.dto.NovaModelagemDTO;
-import com.nextreleaseproblem.model.novamodelagem.NovaModelagemEmployee;
+import com.nextreleaseproblem.model.novamodelagem.NovaModelagemFuncionario;
 import com.nextreleaseproblem.model.novamodelagem.NovaModelagemFeature;
-import com.nextreleaseproblem.model.novamodelagem.NovaModelagemNRPModel;
-import com.nextreleaseproblem.repository.entity.ExecucaoMetaheuristicas;
-import com.nextreleaseproblem.service.novamodelagem.NovaModelagemGeneticAlgorithm;
+
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.nextreleaseproblem.model.novamodelagem.NovaModelagemNRPModelo;
+import com.nextreleaseproblem.service.novamodelagem.NovaModelagemAlgoritmoGenetico;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,25 +35,25 @@ public class NovaModelagemNRPController {
 
         List<NovaModelagemFeature> features = processarArquivoCsvFeatures(file);
 
-        List<NovaModelagemEmployee> employees = processarArquivoCsvEmpregados(file);
+        List<NovaModelagemFuncionario> funcionarios = processarArquivoCsvEmpregados(file);
 
         // Criar modelo NRP com restrições máximas de esforço e número de features
-        NovaModelagemNRPModel model = new NovaModelagemNRPModel(features, employees, 3, 20.0);
+        NovaModelagemNRPModelo model = new NovaModelagemNRPModelo(features, funcionarios, 3, 20.0);
 
         // Executar o algoritmo genético
-        NovaModelagemGeneticAlgorithm ga = new NovaModelagemGeneticAlgorithm(model, 100, 0.7, 0.01, 50);
-        List<NovaModelagemFeature> bestSolution = ga.run();
+        NovaModelagemAlgoritmoGenetico ag = new NovaModelagemAlgoritmoGenetico(model, 100, 0.7, 0.01, 50);
+        List<NovaModelagemFeature> melhorSolucao = ag.executar();
 
         List<NovaModelagemDTO> lista = new ArrayList<>();
         // Exibir o resultado da melhor solução encontrada
         System.out.println("Melhor solução encontrada:");
-        for (NovaModelagemFeature feature : bestSolution) {
+        for (NovaModelagemFeature feature : melhorSolucao) {
             lista.add(NovaModelagemDTO.builder()
                             .id(feature.getId())
-                            .valorNegocio(feature.getBusinessValue())
-                            .esforco(feature.getEffort())
+                            .valorNegocio(feature.getValorNegocio())
+                            .esforco(feature.getEsforco())
                     .build());
-            System.out.println("ID: " + feature.getId() + ", Valor de Negócio: " + feature.getBusinessValue() + ", Esforço: " + feature.getEffort());
+            System.out.println("ID: " + feature.getId() + ", Valor de Negócio: " + feature.getValorNegocio() + ", Esforço: " + feature.getEsforco());
         }
 
         return ResponseEntity
@@ -71,7 +71,7 @@ public class NovaModelagemNRPController {
                      .build()) {
 
             String[] line;
-            boolean readingFeatures = false;
+            boolean lendoFeatures = false;
 
             while ((line = csvReader.readNext()) != null) {
 
@@ -81,14 +81,14 @@ public class NovaModelagemNRPController {
 
                 if (line[0].trim().contains("#")) {
                     if (line[0].contains("Features")) {
-                        readingFeatures = true;
+                        lendoFeatures = true;
                     } else {
-                        readingFeatures = false;
+                        lendoFeatures = false;
                     }
                     continue;
                 }
 
-                if (readingFeatures) {
+                if (lendoFeatures) {
                     NovaModelagemFeature feature = new NovaModelagemFeature(
                             Integer.parseInt(line[0]),
                             Double.parseDouble(line[1]),
@@ -115,9 +115,9 @@ public class NovaModelagemNRPController {
         return features;
     }
 
-    private List<NovaModelagemEmployee> processarArquivoCsvEmpregados(MultipartFile file) {
+    private List<NovaModelagemFuncionario> processarArquivoCsvEmpregados(MultipartFile file) {
 
-        List<NovaModelagemEmployee> empregados = new ArrayList<>();
+        List<NovaModelagemFuncionario> empregados = new ArrayList<>();
 
         try (Reader reader = new InputStreamReader(file.getInputStream());
              CSVReader csvReader = new CSVReaderBuilder(reader)
@@ -125,7 +125,7 @@ public class NovaModelagemNRPController {
                      .build()) {
 
             String[] line;
-            boolean readingEmployees = false;
+            boolean lendoFuncionarios = false;
 
             while ((line = csvReader.readNext()) != null) {
                 if (line.length == 0) {
@@ -136,15 +136,15 @@ public class NovaModelagemNRPController {
 
                 if (trimmedLine.contains("#")) {
                     if (trimmedLine.contains("Funcionário")) {
-                        readingEmployees = true;
+                        lendoFuncionarios = true;
                     } else {
-                        readingEmployees = false;
+                        lendoFuncionarios = false;
                     }
                     continue;
                 }
 
-                if (readingEmployees) {
-                    NovaModelagemEmployee employee = new NovaModelagemEmployee(
+                if (lendoFuncionarios) {
+                    NovaModelagemFuncionario employee = new NovaModelagemFuncionario(
                             Integer.parseInt(line[0].trim()),
                             Double.parseDouble(line[1].trim()),
                             Arrays.asList(line[2].trim())
