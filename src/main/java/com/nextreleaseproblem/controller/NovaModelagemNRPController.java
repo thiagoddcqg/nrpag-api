@@ -1,6 +1,7 @@
 package com.nextreleaseproblem.controller;
 
 import com.nextreleaseproblem.dto.NovaModelagemDTO;
+import com.nextreleaseproblem.enuns.PrioridadeFeature;
 import com.nextreleaseproblem.exception.RegraDeNegocioException;
 import com.nextreleaseproblem.model.novamodelagem.NovaModelagemFuncionario;
 import com.nextreleaseproblem.model.novamodelagem.NovaModelagemFeature;
@@ -115,7 +116,8 @@ public class NovaModelagemNRPController {
                             LocalDate.parse(line[9]),
                             LocalDate.parse(line[10]),
                             Integer.parseInt(line[11]),
-                            Integer.parseInt(line[12])
+                            Integer.parseInt(line[12]),
+                            PrioridadeFeature.valueOf(line[13])
                     );
                     features.add(feature);
                 }

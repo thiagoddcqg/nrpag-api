@@ -1,5 +1,6 @@
 package com.nextreleaseproblem.model.novamodelagem;
 
+import com.nextreleaseproblem.enuns.PrioridadeFeature;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -22,4 +23,5 @@ public class NovaModelagemFeature {
     private LocalDate dataFim;
     private int tarefaPai;
     private int quantidadeAnexos;
+    private PrioridadeFeature prioridade;
 }
