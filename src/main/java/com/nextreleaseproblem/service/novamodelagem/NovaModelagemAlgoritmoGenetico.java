@@ -94,7 +94,7 @@ public class NovaModelagemAlgoritmoGenetico {
         List<NovaModelagemFeature> melhorSolucao = null;
         double melhorValor = -Double.MAX_VALUE;
         for (List<NovaModelagemFeature> solucao : populacao) {
-            double valor = calcularValor(solucao);
+            double valor = funcaoObjetiva(solucao);
             if (valor > melhorValor) {
                 melhorValor = valor;
                 melhorSolucao = solucao;
@@ -103,11 +103,24 @@ public class NovaModelagemAlgoritmoGenetico {
         return melhorSolucao;
     }
 
-    private double calcularValor(List<NovaModelagemFeature> solucao) {
+   /* private double calcularValor(List<NovaModelagemFeature> solucao) {
         double valor = 0;
         double esforco = 0;
         for (NovaModelagemFeature feature : solucao) {
             valor += feature.getValorNegocio();
+            esforco += feature.getEsforco();
+        }
+        if (esforco > modelo.getMaximoEsforco() || solucao.size() > modelo.getMaximoFeatures()) {
+            return -Double.MAX_VALUE;
+        }
+        return valor;
+    }*/
+
+    private double funcaoObjetiva(List<NovaModelagemFeature> solucao) {
+        double valor = 0;
+        double esforco = 0;
+        for (NovaModelagemFeature feature : solucao) {
+            valor += feature.getValorNegocio() * feature.getPrioridade().getPontuacao();
             esforco += feature.getEsforco();
         }
         if (esforco > modelo.getMaximoEsforco() || solucao.size() > modelo.getMaximoFeatures()) {

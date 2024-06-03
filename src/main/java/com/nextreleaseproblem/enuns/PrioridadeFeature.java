@@ -1,5 +1,8 @@
 package com.nextreleaseproblem.enuns;
 
+import lombok.Getter;
+
+@Getter
 public enum PrioridadeFeature {
     BAIXA(1),
     MEDIA(3),
