@@ -19,6 +19,7 @@ public class NovaModelagemFeature {
     private String atribuidoPara;
     private int quantidadeServico;
     private LocalDate dataInicio;
+    private LocalDate dataFim;
     private int tarefaPai;
     private int quantidadeAnexos;
 }

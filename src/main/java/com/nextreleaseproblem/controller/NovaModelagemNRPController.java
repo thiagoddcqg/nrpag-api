@@ -1,6 +1,7 @@
 package com.nextreleaseproblem.controller;
 
 import com.nextreleaseproblem.dto.NovaModelagemDTO;
+import com.nextreleaseproblem.exception.RegraDeNegocioException;
 import com.nextreleaseproblem.model.novamodelagem.NovaModelagemFuncionario;
 import com.nextreleaseproblem.model.novamodelagem.NovaModelagemFeature;
 
@@ -34,6 +35,7 @@ public class NovaModelagemNRPController {
     public ResponseEntity<List<NovaModelagemDTO>> executar(@RequestParam("file") MultipartFile file) {
 
         List<NovaModelagemFeature> features = processarArquivoCsvFeatures(file);
+        validarDataInicioManorDataFim(features);
 
         List<NovaModelagemFuncionario> funcionarios = processarArquivoCsvEmpregados(file);
 
@@ -60,6 +62,15 @@ public class NovaModelagemNRPController {
                 .status(HttpStatus.OK)
                 .body(lista);
     }
+
+    private void validarDataInicioManorDataFim(List<NovaModelagemFeature> features){
+        for(NovaModelagemFeature feature :  features){
+            if(feature.getDataInicio().isAfter(feature.getDataFim())){
+                throw new RegraDeNegocioException("A data inicial não pode ser depois que a data fim!");
+            }
+        }
+    }
+
 
     private List<NovaModelagemFeature> processarArquivoCsvFeatures(MultipartFile file) {
 
@@ -102,8 +113,9 @@ public class NovaModelagemNRPController {
                             line[7],
                             Integer.parseInt(line[8]),
                             LocalDate.parse(line[9]),
-                            Integer.parseInt(line[10]),
-                            Integer.parseInt(line[11])
+                            LocalDate.parse(line[10]),
+                            Integer.parseInt(line[11]),
+                            Integer.parseInt(line[12])
                     );
                     features.add(feature);
                 }
