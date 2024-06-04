@@ -1,6 +1,7 @@
 package com.nextreleaseproblem.model.novamodelagem;
 
 import com.nextreleaseproblem.enuns.PrioridadeFeature;
+import com.nextreleaseproblem.enuns.StatusFeature;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -15,7 +16,7 @@ public class NovaModelagemFeature {
     private double esforco;
     private List<Integer> precedencia;
     private String tipo;
-    private String status;
+    private StatusFeature status;
     private String titulo;
     private String atribuidoPara;
     private int quantidadeServico;

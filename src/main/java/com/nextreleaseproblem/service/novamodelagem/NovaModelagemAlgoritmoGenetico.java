@@ -103,19 +103,6 @@ public class NovaModelagemAlgoritmoGenetico {
         return melhorSolucao;
     }
 
-   /* private double calcularValor(List<NovaModelagemFeature> solucao) {
-        double valor = 0;
-        double esforco = 0;
-        for (NovaModelagemFeature feature : solucao) {
-            valor += feature.getValorNegocio();
-            esforco += feature.getEsforco();
-        }
-        if (esforco > modelo.getMaximoEsforco() || solucao.size() > modelo.getMaximoFeatures()) {
-            return -Double.MAX_VALUE;
-        }
-        return valor;
-    }*/
-
     private double funcaoObjetiva(List<NovaModelagemFeature> solucao) {
         double valor = 0;
         double esforco = 0;
