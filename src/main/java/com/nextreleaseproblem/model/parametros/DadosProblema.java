@@ -3,59 +3,36 @@
  */
 package com.nextreleaseproblem.model.parametros;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 /**
  * Encapsula os dados de um problema de próximo lançamento
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "DADOS_PROBLEMA")
 public class DadosProblema {
 
-	/**
-	 * Lista de recursos
-	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@OneToMany(mappedBy = "dadosProblema", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Feature> features;
 
-	/**
-	 * Lista de funcionários
-	 */
+	@OneToMany(mappedBy = "dadosProblema", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Funcionario> funcionarios;
 
-	/**
-	 * Lista de habilidades
-	 */
+	@OneToMany(mappedBy = "dadosProblema", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Habilidade> habilidades;
 
-	
-	public List<Feature> getFeatures() {
-		return features;
-	}
-
-	public void setFeatures(List<Feature> features) {
-		this.features = features;
-	}
-
-	public List<Funcionario> getFuncionarios() {
-		return funcionarios;
-	}
-
-	public void setFuncionarios(List<Funcionario> funcionarios) {
-		this.funcionarios = funcionarios;
-	}
-
-	public List<Habilidade> getHabilidades() {
-		return habilidades;
-	}
-
-	public void setHabilidades(List<Habilidade> habilidades) {
-		this.habilidades = habilidades;
-	}
-	
-	/**
-	 * Constructor
-	 * @param features the features of the problem
-	 * @param funcionarios the employees of the problem
-	 * @param habilidades the skills of the problem
-	 */
 	public DadosProblema(List<Feature> features, List<Funcionario> funcionarios, List<Habilidade> habilidades) {
 		this.features = features;
 		this.funcionarios = funcionarios;

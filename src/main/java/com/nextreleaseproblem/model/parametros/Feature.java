@@ -1,59 +1,57 @@
 package com.nextreleaseproblem.model.parametros;
 
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Classe representando uma característica do Problema do Próximo Lançamento
- */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "FEATURES")
 public class Feature {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long idFeature;
 
 	/**
 	 * nome da feature
 	 */
+	@Column(name = "NOME", nullable = false)
 	private String nome;
 	
 	/**
 	 * a prioridade da feature
 	 */
+	@Enumerated(EnumType.STRING)
+	@Column(name = "PRIORIDADE", nullable = false)
 	private NivelPrioridadeEnum prioridade;
 	
 	/**
 	 * a duração da feature em horas
 	 */
+	@Column(name = "DURACAO", nullable = false)
 	private double duracao;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id")
+	private DadosProblema dadosProblema;
 	
 	/**
 	 * As features que precisavam ser executados antes
 	 */
+	@Transient
 	private List<Feature> featuesAnteriores;
 	
 	/**
 	 * as habilidades requeridas pelas feature
 	 */
+	@Transient
 	private List<Habilidade> habilidadesRequeridas;
 	
-	public String getNome() {
-		return nome;
-	}
-
-	public NivelPrioridadeEnum getPrioridade() {
-		return prioridade;
-	}
-
-	public double getDuracao() {
-		return duracao;
-	}
-
-	public List<Feature> getFeatuesAnteriores() {
-		return featuesAnteriores;
-	}
-	
-	public List<Habilidade> getHabilidadesRequeridas() {
-		return habilidadesRequeridas;
-	}
-
-
 	/**
 	 * Construtor da Feature
 	 * @param nome o nome do recurso

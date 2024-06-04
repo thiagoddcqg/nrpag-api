@@ -1,21 +1,39 @@
 package com.nextreleaseproblem.model.parametros;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Descreve um funcionário que pode realizar um recurso
- */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "FUNCIONARIOS")
 public class Funcionario {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long idFuncionario;
 	
 	/**
 	 * Nome do empregado
 	 */
+	@Column(name = "NOME", nullable = false)
 	private String nome;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id")
+	private DadosProblema dadosProblema;
 	
 	/**
 	 * As abilidades do empregado
 	 */
+	@Transient
 	private List<Habilidade> habilidades;
 
 	/**
@@ -23,30 +41,8 @@ public class Funcionario {
 	 */
 	private double disponibilidadeSemanal;
 
-	
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
 	public List<Habilidade> getAbilidades() {
 		return habilidades;
-	}
-
-	public void setAbilidades(List<Habilidade> habilidades) {
-		this.habilidades = habilidades;
-	}
-
-	public double getDisponibilidadeSemanal() {
-		return disponibilidadeSemanal;
-	}
-
-	public void setDisponibilidadeSemanal(double disponibilidadeSemanal) {
-		this.disponibilidadeSemanal = disponibilidadeSemanal;
 	}
 
 	/**

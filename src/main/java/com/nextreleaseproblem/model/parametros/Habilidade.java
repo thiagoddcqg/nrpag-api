@@ -1,21 +1,34 @@
 package com.nextreleaseproblem.model.parametros;
 
-/**
- * Uma habilidade para executar uma tarefa
- * Possuído por funcionários
- */
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "HABILIDADES")
 public class Habilidade {
-	
+
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long idHabilidade;
 
 	/**
 	 * Nome da habilidade
 	 */
+	@Column(name = "NOME", nullable = false)
 	private String nome;
-	
 
-	public String getNome() {
-		return nome;
-	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id")
+	private DadosProblema dadosProblema;
 
 
 	public void setNome(String nome) {

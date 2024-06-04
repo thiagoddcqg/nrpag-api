@@ -5,6 +5,7 @@ import com.nextreleaseproblem.model.*;
 import com.nextreleaseproblem.model.parametros.AlgoritmoEnum;
 import com.nextreleaseproblem.model.parametros.DadosProblema;
 import com.nextreleaseproblem.model.parametros.ParametrosInteracao;
+import com.nextreleaseproblem.repository.DadosProblemaRepository;
 import com.nextreleaseproblem.repository.entity.ExecucaoMetaheuristicas;
 import com.nextreleaseproblem.service.ExecucaoAlgoritmoService;
 import com.nextreleaseproblem.service.ExecucaoService;
@@ -340,6 +341,8 @@ public class ExecutarAGNRPController {
         ResultadoExecucao result = executor.executeAlgorithm(algoritmoEnum);
 
         HTMLEscrita browserDisplay = new HTMLEscrita(result.getSolucao());
+
         return browserDisplay.getCodigoPaginaHTML();
     }
+
 }

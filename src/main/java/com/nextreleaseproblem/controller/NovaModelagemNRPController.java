@@ -2,6 +2,7 @@ package com.nextreleaseproblem.controller;
 
 import com.nextreleaseproblem.dto.NovaModelagemDTO;
 import com.nextreleaseproblem.enuns.PrioridadeFeature;
+import com.nextreleaseproblem.enuns.StatusFeature;
 import com.nextreleaseproblem.exception.RegraDeNegocioException;
 import com.nextreleaseproblem.model.novamodelagem.NovaModelagemFuncionario;
 import com.nextreleaseproblem.model.novamodelagem.NovaModelagemFeature;
@@ -109,7 +110,7 @@ public class NovaModelagemNRPController {
                                     .map(Integer::parseInt)
                                     .collect(Collectors.toList()),
                             line[4],
-                            line[5],
+                            StatusFeature.valueOf(line[5]),
                             line[6],
                             line[7],
                             Integer.parseInt(line[8]),
