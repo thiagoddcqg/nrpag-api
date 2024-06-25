@@ -31,7 +31,7 @@ public class Funcionario {
 	private DadosProblema dadosProblema;
 	
 	/**
-	 * As abilidades do empregado
+	 * As habilidades do empregado
 	 */
 	@Transient
 	private List<Habilidade> habilidades;
