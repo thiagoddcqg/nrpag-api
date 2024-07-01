@@ -32,7 +32,15 @@ public class GerarDadosController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<DadosProblema> gerarDados(@RequestBody RequestGerarDadosDTO requestGerarDadosDTO) {
+    public ResponseEntity<DadosProblema> gerarDados(@RequestParam int numeroDeFeatures,
+            @RequestParam int numeroDeEmpregados, @RequestParam int numeroDeHabilidades,
+            @RequestParam double taxaDeRestricoesDePrecedencia) {
+
+        RequestGerarDadosDTO requestGerarDadosDTO = new RequestGerarDadosDTO();
+        requestGerarDadosDTO.setNumeroDeFeatures(numeroDeFeatures);
+        requestGerarDadosDTO.setNumeroDeEmpregados(numeroDeEmpregados);
+        requestGerarDadosDTO.setNumeroDeHabilidades(numeroDeHabilidades);
+        requestGerarDadosDTO.setTaxaDeRestricoesDePrecedencia(taxaDeRestricoesDePrecedencia);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
